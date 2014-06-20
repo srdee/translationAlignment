@@ -1,6 +1,7 @@
 //All of the below to be used with Perseids-style alignment data in JSON--see Kohelet-1.align.json for example
 
-//For converting alignment XML to JSON--need to change xml:Lang to xmlLang and aligned-text to alignment--see example
+//For converting alignment XML to JSON--need to change xml:Lang to xmlLang and aligned-text to alignment--see Kohelet-1.align.json for an example
+
 
 
 function getLangList(alignmentData) {
