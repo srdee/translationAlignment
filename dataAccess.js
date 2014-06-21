@@ -87,6 +87,20 @@ function getLNumWordTextBySentenceNumber(alignmentData, sentenceNumber, lNum) {
     return textList;
 }
 
+function getLNumSentenceBySentenceNumber(alignmentData, sentenceNumber, lNum){
+    var num = sentenceNumber - 1;
+    var lN = lNum - 1;
+    var wordList = alignmentData.alignment.sentence[num].wds[lN].w;
+
+    var textList = [];
+
+    for (i = 0; i < wordList.length; i++) {
+        textList.push(wordList[i].text);
+    }
+    return textList.join(" ");
+
+}
+
 function getFullTextbyLNum(alignmentData, lNum) {
     var lN = lNum - 1;
     var textList = [];
@@ -107,3 +121,104 @@ function getFullTextbyLNum(alignmentData, lNum) {
     }
     return textList.join(" ");
 }
+
+function sideBySideSentences(alignmentData){
+    var sentenceList = alignmentData.alignment.sentence;
+
+
+    var langData = alignmentData.alignment.language;
+    var dirList = [];
+
+    for (i = 0; i < langData.length; i++) {
+        dirList.push(langData[i].dir);
+    }
+
+    var htmlArray =[];
+
+    for (s=0; s < sentenceList.length; s++){
+
+        var rowArray = [];
+
+        for (d=0; d<dirList.length; d++){
+
+             var num = s;
+             var lN = d;
+             var width = 12/(dirList.length);
+             var wordList = alignmentData.alignment.sentence[num].wds[lN].w;
+             var textList = [];
+
+            for (i = 0; i < wordList.length; i++) {
+                    textList.push(wordList[i].text);
+            }
+            rowArray.push("<div class='col-md-" + width +"' dir='" + dirList[d] + "'>" + textList.join(" ") + "</div>");
+
+        }
+
+        htmlArray.push("<div class 'row'>" + rowArray + "</div>");
+    }
+
+    return htmlArray.join("\n");
+
+}
+
+/*function findCorrWords(alignmentData) {
+
+    var sentenceList = alignmentData.alignment.sentence;
+
+    var sCorrList = [];
+
+    for (i = 0; i < sentenceList.length; i++) {
+
+        var sList = getWordsBySentenceNumber(alignmentData, i + 1);
+
+        
+
+        //hack that makes it only viable for 2 langs right now
+
+        var n = 1;
+
+        //the functions are supposed to be human readable (ie subtract 1 from input)
+
+        var wordNums = getLNumWordNumsBySentenceNumber(alignmentData, i + 1, n + 1);
+        var wordRefList = getLNumWordRefListsBySentenceNumber(alignmentData, i + 1, n + 1);
+
+        var corrData = getLNumWordDataBySentenceNumber(alignmentData, i + 1, n + 2);
+
+        var wordList = getWordsBySentenceNumber(alignmentData, i + 1);
+        var corrList = [];
+
+        for (w = 0; w < wordRefList.length; w++) {
+
+            var refList = wordRefList[w];
+
+            var corrTextList = [];
+
+            for (r = 0; r < refList.length; r++) {
+
+                var corrNum = wordRefList[w][r];
+
+                for (c = 0; c < corrData.length; c++) {
+
+                    if (corrData[c].n == corrNum) {
+
+                        var corrWord = corrData[c].text;
+                        corrTextList.push(corrWord);
+                        
+                    }
+
+
+                }
+
+            }
+
+            corrList.push(corrTextList.join(" "));
+
+        }
+
+        sCorrList.push(corrList);
+
+
+
+    }
+
+} */
